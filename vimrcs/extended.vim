@@ -29,13 +29,18 @@ set guioptions-=L
 
 " Colorscheme
 set background=dark
-colorscheme peaksea
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'darker'
+colorscheme material
+if (has('termguicolors'))
+    set termguicolors
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim_runtime/my_configs.vim<cr>
+map <leader>ee :e! ~/.vim_runtime/my_configs.vim<cr>
 autocmd! bufwritepost ~/.vim_runtime/my_configs.vim source ~/.vim_runtime/my_configs.vim
 
 
@@ -118,13 +123,13 @@ if executable('ag')
 endif
 
 " When you press gv you Ack after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+vnoremap <silent> <c-s-f> :call VisualSelection('gv', '')<CR>
 
 " Open Ack and put the cursor in the right position
-map <leader>g :Ack 
+map <c-s-f> :Ack <c-r>*
 
 " When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+vnoremap <silent> <c-s-r> :call VislalSelection('replace', '')<CR>
 
 " Do :help cope if you are unsure what cope is. It's super useful!
 "
@@ -137,10 +142,10 @@ vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 " To go to the previous search results do:
 "   <leader>p
 "
-map <leader>cc :botright cope<cr>
+map <leader>e :botright copen<cr>
 map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+map <leader>n :cnext<cr>
+map <leader>p :cprevious<cr>
 
 " Make sure that enter is never overriden in the quickfix window
 autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
