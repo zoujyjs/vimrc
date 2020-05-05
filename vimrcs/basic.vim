@@ -144,7 +144,7 @@ function! VimEnter()
 	if argc() == 0
 		if filereadable(g:LocalSession)
 			exe "source ".g:LocalSession
-		else
+        elseif filereadable(g:GlobalSession)
 			exe "source ".g:GlobalSession
 		endif
 	endif

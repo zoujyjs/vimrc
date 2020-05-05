@@ -17,8 +17,17 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
+
+" GoTo code navigation.
+nmap <silent> <Leader>d <Plug>(coc-definition)
+nmap <silent> <Leader>gy <Plug>(coc-type-definition)
+nmap <silent> <Leader>gi <Plug>(coc-implementation)
+nmap <silent> <Leader>gr <Plug>(coc-references)
+
+let g:node_client_debug=1
 
 """"""""""""""""""""""""""""""
 " => NERDCommenter
@@ -47,7 +56,21 @@ let g:AutoPairsShortcutToggle='<Leader><M-p>'
 " => CTRL-P
 """"""""""""""""""""""""""""""
 let g:ctrlp_max_height = 30
-let g:ctrlp_custom_ignore = 'node_modules\|^\.DS_Store\|^\.git\|^\.coffee'
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=*/coverage/*
+let g:ctrlp_prompt_mappings = {
+\ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+\ 'AcceptSelection("h")': ['<c-x>', '<c-s>'],
+\ 'AcceptSelection("t")': ['<cr>', '<c-t>'],
+\ 'AcceptSelection("v")': ['<c-cr>', '<c-v>', '<RightMouse>'],
+\ }
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|fmod_proj|bin)$',
+  \ 'file': '\v\.(exe|so|dll|xlsl)$',
+  \ }
+
 
 
 """"""""""""""""""""""""""""""
@@ -81,16 +104,19 @@ au FileType mako vmap Si S"i${ _(<esc>2f"a) }<esc>
 " => lightline
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
-      \ 'colorscheme': 'powerline',
+      \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+      \             ['cocstatus', 'fugitive', 'readonly', 'filename', 'modified'] ],
       \   'right': [ [ 'lineinfo' ], ['percent'] ]
       \ },
       \ 'component': {
       \   'readonly': '%{&filetype=="help"?"":&readonly?"🔒":""}',
       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*FugitiveHead")?FugitiveHead():""}'
+      \   'fugitive': '%{exists("*FugitiveHead")?FugitiveHead():""}',
+      \ },
+      \ 'component_function':{
+	  \   'cocstatus': 'coc#status'
       \ },
       \ 'component_visible_condition': {
       \   'readonly': '(&filetype!="help"&& &readonly)',
@@ -100,6 +126,8 @@ let g:lightline = {
       \ 'separator': { 'left': ' ', 'right': ' ' },
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
+
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -120,9 +148,8 @@ let g:ale_set_highlights = 0
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Git gutter (Git diff)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:gitgutter_enabled=0
-nnoremap <silent> <leader>d :GitGutterToggle<cr>
+" nnoremap <silent> <leader>d :GitGutterToggle<cr>
