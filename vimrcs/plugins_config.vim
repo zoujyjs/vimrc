@@ -26,14 +26,22 @@ nmap <silent> <Leader>d <Plug>(coc-definition)
 nmap <silent> <Leader>gy <Plug>(coc-type-definition)
 nmap <silent> <Leader>gi <Plug>(coc-implementation)
 nmap <silent> <Leader>gr <Plug>(coc-references)
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
 inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    \ pumvisible() ? "\<C-y>" :
+    \ <SID>check_back_space() ? "\<Tab>" : coc#refresh()
 inoremap <silent><expr> <C-j>
     \ pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <silent><expr> <C-k>
     \ pumvisible() ? "\<C-p>" : "\<C-k>"
 
 let g:node_client_debug=1
+
+nmap <S-p> :CocCommand<cr>
 
 """"""""""""""""""""""""""""""
 " => NERDCommenter

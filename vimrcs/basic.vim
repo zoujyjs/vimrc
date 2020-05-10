@@ -296,6 +296,12 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set shiftround
+
+" disable python.vim messup tab settings
+let g:python_recommended_style=0
 
 " Linebreak on 500 characters
 set lbr
@@ -306,10 +312,6 @@ set si "Smart indent
 set wrap "Wrap lines
 " By default, use spaced tabs.
 set expandtab
-
-" Display tabs as 4 spaces wide. When expandtab is set, use 4 spaces.
-set shiftwidth=4
-set tabstop=4
 
 function! TabsOrSpaces()
     " Determines whether to use spaces or tabs on the current buffer.
