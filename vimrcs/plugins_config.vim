@@ -26,6 +26,12 @@ nmap <silent> <Leader>d <Plug>(coc-definition)
 nmap <silent> <Leader>gy <Plug>(coc-type-definition)
 nmap <silent> <Leader>gi <Plug>(coc-implementation)
 nmap <silent> <Leader>gr <Plug>(coc-references)
+inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent><expr> <C-j>
+    \ pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <silent><expr> <C-k>
+    \ pumvisible() ? "\<C-p>" : "\<C-k>"
 
 let g:node_client_debug=1
 
