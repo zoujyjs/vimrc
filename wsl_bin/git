@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ "$PWD" =~ /mnt/[c-z]/ ]]; then
+    exec "/mnt/c/Program Files/Git/cmd/git.exe" "$@"
+else
+    git.bak "$@"
+fi
